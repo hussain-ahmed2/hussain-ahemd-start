@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center px-4 max-w-6xl mx-auto"
+      className="flex flex-col items-center justify-center min-h-screen text-center px-4 max-w-6xl mx-auto"
     >
       {/* Intro greeting */}
       <ScrollAnimate
