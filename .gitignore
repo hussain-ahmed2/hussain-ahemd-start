@@ -12,6 +12,7 @@ count.txt
 .vinxi
 __unconfig*
 todos.json
+/src/generated
 
 # Local Netlify folder
 .netlify
