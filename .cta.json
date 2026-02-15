@@ -1,0 +1,24 @@
+{
+  "projectName": "hussain-ahemd-start",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "npm",
+  "tailwind": true,
+  "addOnOptions": {
+    "prisma": {
+      "database": "postgres"
+    }
+  },
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "eslint",
+    "netlify",
+    "prisma",
+    "compiler",
+    "shadcn",
+    "table",
+    "better-auth"
+  ]
+}
