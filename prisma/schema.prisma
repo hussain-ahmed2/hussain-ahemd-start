@@ -104,6 +104,8 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  impersonatedBy String?
+
   @@unique([token])
   @@index([userId])
   @@map("session")
@@ -148,21 +150,18 @@ model SiteSettings {
   updatedAt DateTime @updatedAt
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
 model User {
   id            String    @id
   name          String
   email         String
   emailVerified Boolean   @default(false)
   image         String?
-  theme         String    @default("zinc")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  role          Role      @default(USER)
+  role          String?
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
   sessions      Session[]
   accounts      Account[]
 

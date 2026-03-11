@@ -6,8 +6,6 @@ import appCss from '../styles.css?url'
 
 import type { Theme } from '@/providers/theme-provider'
 import { ThemeProvider, getThemeFn } from '@/providers/theme-provider'
-import Header from '@/components/header'
-import { Footer } from '@/components/footer'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
@@ -56,10 +54,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider defaultTheme={theme} storageKey="theme">
-          <Header />
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster position="top-center" />
-          <Footer />
         </ThemeProvider>
         <TanStackDevtools
           config={{

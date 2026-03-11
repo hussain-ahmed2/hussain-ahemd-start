@@ -10,11 +10,37 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MeMeRouteRouteImport } from './routes/_me/me/route'
+import { Route as MeMeIndexRouteImport } from './routes/_me/me/index'
+import { Route as AuthUnauthorizedIndexRouteImport } from './routes/_auth/unauthorized/index'
+import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as MeMeSkillsIndexRouteImport } from './routes/_me/me/skills/index'
+import { Route as MeMeExperiencesIndexRouteImport } from './routes/_me/me/experiences/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeMeRouteRoute = MeMeRouteRouteImport.update({
+  id: '/_me/me',
+  path: '/me',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeMeIndexRoute = MeMeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MeMeRouteRoute,
+} as any)
+const AuthUnauthorizedIndexRoute = AuthUnauthorizedIndexRouteImport.update({
+  id: '/_auth/unauthorized/',
+  path: '/unauthorized/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignInIndexRoute = AuthSignInIndexRouteImport.update({
+  id: '/_auth/sign-in/',
+  path: '/sign-in/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -22,31 +48,85 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MeMeSkillsIndexRoute = MeMeSkillsIndexRouteImport.update({
+  id: '/skills/',
+  path: '/skills/',
+  getParentRoute: () => MeMeRouteRoute,
+} as any)
+const MeMeExperiencesIndexRoute = MeMeExperiencesIndexRouteImport.update({
+  id: '/experiences/',
+  path: '/experiences/',
+  getParentRoute: () => MeMeRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/me': typeof MeMeRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/sign-in/': typeof AuthSignInIndexRoute
+  '/unauthorized/': typeof AuthUnauthorizedIndexRoute
+  '/me/': typeof MeMeIndexRoute
+  '/me/experiences/': typeof MeMeExperiencesIndexRoute
+  '/me/skills/': typeof MeMeSkillsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/sign-in': typeof AuthSignInIndexRoute
+  '/unauthorized': typeof AuthUnauthorizedIndexRoute
+  '/me': typeof MeMeIndexRoute
+  '/me/experiences': typeof MeMeExperiencesIndexRoute
+  '/me/skills': typeof MeMeSkillsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_me/me': typeof MeMeRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_auth/sign-in/': typeof AuthSignInIndexRoute
+  '/_auth/unauthorized/': typeof AuthUnauthorizedIndexRoute
+  '/_me/me/': typeof MeMeIndexRoute
+  '/_me/me/experiences/': typeof MeMeExperiencesIndexRoute
+  '/_me/me/skills/': typeof MeMeSkillsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/me'
+    | '/api/auth/$'
+    | '/sign-in/'
+    | '/unauthorized/'
+    | '/me/'
+    | '/me/experiences/'
+    | '/me/skills/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/auth/$'
-  id: '__root__' | '/' | '/api/auth/$'
+  to:
+    | '/'
+    | '/api/auth/$'
+    | '/sign-in'
+    | '/unauthorized'
+    | '/me'
+    | '/me/experiences'
+    | '/me/skills'
+  id:
+    | '__root__'
+    | '/'
+    | '/_me/me'
+    | '/api/auth/$'
+    | '/_auth/sign-in/'
+    | '/_auth/unauthorized/'
+    | '/_me/me/'
+    | '/_me/me/experiences/'
+    | '/_me/me/skills/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MeMeRouteRoute: typeof MeMeRouteRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  AuthSignInIndexRoute: typeof AuthSignInIndexRoute
+  AuthUnauthorizedIndexRoute: typeof AuthUnauthorizedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +138,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_me/me': {
+      id: '/_me/me'
+      path: '/me'
+      fullPath: '/me'
+      preLoaderRoute: typeof MeMeRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_me/me/': {
+      id: '/_me/me/'
+      path: '/'
+      fullPath: '/me/'
+      preLoaderRoute: typeof MeMeIndexRouteImport
+      parentRoute: typeof MeMeRouteRoute
+    }
+    '/_auth/unauthorized/': {
+      id: '/_auth/unauthorized/'
+      path: '/unauthorized'
+      fullPath: '/unauthorized/'
+      preLoaderRoute: typeof AuthUnauthorizedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/sign-in/': {
+      id: '/_auth/sign-in/'
+      path: '/sign-in'
+      fullPath: '/sign-in/'
+      preLoaderRoute: typeof AuthSignInIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -65,12 +173,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_me/me/skills/': {
+      id: '/_me/me/skills/'
+      path: '/skills'
+      fullPath: '/me/skills/'
+      preLoaderRoute: typeof MeMeSkillsIndexRouteImport
+      parentRoute: typeof MeMeRouteRoute
+    }
+    '/_me/me/experiences/': {
+      id: '/_me/me/experiences/'
+      path: '/experiences'
+      fullPath: '/me/experiences/'
+      preLoaderRoute: typeof MeMeExperiencesIndexRouteImport
+      parentRoute: typeof MeMeRouteRoute
+    }
   }
 }
 
+interface MeMeRouteRouteChildren {
+  MeMeIndexRoute: typeof MeMeIndexRoute
+  MeMeExperiencesIndexRoute: typeof MeMeExperiencesIndexRoute
+  MeMeSkillsIndexRoute: typeof MeMeSkillsIndexRoute
+}
+
+const MeMeRouteRouteChildren: MeMeRouteRouteChildren = {
+  MeMeIndexRoute: MeMeIndexRoute,
+  MeMeExperiencesIndexRoute: MeMeExperiencesIndexRoute,
+  MeMeSkillsIndexRoute: MeMeSkillsIndexRoute,
+}
+
+const MeMeRouteRouteWithChildren = MeMeRouteRoute._addFileChildren(
+  MeMeRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MeMeRouteRoute: MeMeRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  AuthSignInIndexRoute: AuthSignInIndexRoute,
+  AuthUnauthorizedIndexRoute: AuthUnauthorizedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

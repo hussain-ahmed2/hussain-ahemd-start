@@ -6,6 +6,8 @@ import { Skills } from '@/components/home/skills'
 import { Projects } from '@/components/home/projects'
 import { Contact } from '@/components/home/contact'
 import { prisma } from '@/db'
+import Header from '@/components/header'
+import { Footer } from '@/components/footer'
 
 const getHomeData = createServerFn({ method: 'GET' }).handler(async () => {
   const [skills, experiences, projects] = await Promise.all([
@@ -39,11 +41,13 @@ function HomePage() {
   const { experiences, skills, projectsWithTags } = Route.useLoaderData()
   return (
     <div>
+      <Header />
       <Hero />
       <Experience experiences={experiences} />
       <Skills skills={skills} />
       <Projects projects={projectsWithTags} />
       <Contact />
+      <Footer />
     </div>
   )
 }
